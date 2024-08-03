@@ -4,7 +4,6 @@ import pandas as pd
 import pyodbc as odbc
 import streamlit as st
 import matplotlib.pyplot as plt
-import plost
 
 
 # Defining the Component of Connection String
