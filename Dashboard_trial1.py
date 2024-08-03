@@ -88,7 +88,7 @@ st.title('Order Management Dashboard')
 st.markdown("عملکرد فروش از 1 فروردین تا 5 مرداد 1403")
 
 st.subheader("Metrics")
-col1, col2 = st.column(2)
+col1 = st.column(1)
 col1.metric('Total Quantity', total_quantity)
 
 
