@@ -88,8 +88,10 @@ st.title('Order Management Dashboard')
 st.markdown("عملکرد فروش از 1 فروردین تا 5 مرداد 1403")
 
 st.subheader("Metrics")
-col1 = st.columns(1)
-st.metric('Total Quantity', total_quantity)
+col1, col2, col3 = st.columns(3)
+st.col1.metric('Overall Quantity', total_quantity)
+st.col2.metric('Overall Net Price', total_net)
+st.col3.metric('Overall', total_quantity)
 
 
 st.sidebar.header('Dashboard `version 2`')
