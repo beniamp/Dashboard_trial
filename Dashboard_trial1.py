@@ -85,17 +85,6 @@ with open('style (1).css') as f:
 
 
 st.title('Order Management Dashboard')
-st.title("""
-<style>
-    .reportview-container .sidebar {
-        display: none;
-    }
-</style>
-
-# <center>Order Management Dashboard</center>
-""",
-unsafe_allow_html=True
-)
 
 st.markdown("عملکرد فروش از 1 فروردین تا 5 مرداد 1403")
 st.sidebar.header('Dashboard `version 2`')
