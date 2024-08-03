@@ -80,7 +80,7 @@ category_total = category_total.sort_values('TotalPrice', ascending=False).reset
 
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
-with open('Downloads/style.css') as f:
+with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
     
 st.sidebar.header('Dashboard `version 2`')
