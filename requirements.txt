@@ -1,3 +1,7 @@
 streamlit
 pandas
 plost
+pyodbc
+matplotlib.pyplot
+warnings
+numpy
