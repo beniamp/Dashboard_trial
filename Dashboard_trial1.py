@@ -37,7 +37,8 @@ result = cursor.execute(query1).fetchall()
 
 
 # Coverting our Sql Based Table into Pandas Dataframe
-df_orders = pd.read_sql(query1, conn)
+# df_orders = pd.read_sql(query1, conn)
+df_orders = pd.read_csv('data.csv')
 df_orders.head()
 
 
