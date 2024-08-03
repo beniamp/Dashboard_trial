@@ -83,8 +83,7 @@ st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 with open('style (1).css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-st.title('Order Management Dashboard')
-st.markdown("""
+st.title("""
 <style>
     .reportview-container .sidebar {
         display: none;
@@ -95,5 +94,13 @@ st.markdown("""
 """,
 unsafe_allow_html=True
 )
-st.markdown('عملکرد فروش از 1 فروردین تا 5 مرداد 1403')
+st.markdown("""
+<style>
+    .reportview-container .sidebar {
+        display: none;
+    }
+</style>
+
+# <center>عملکرد فروش از 1 فروردین تا 5 مرداد 1403</center>
+""")
 st.sidebar.header('Dashboard `version 2`')
