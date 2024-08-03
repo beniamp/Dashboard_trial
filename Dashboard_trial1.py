@@ -95,5 +95,5 @@ st.title("""
 unsafe_allow_html=True
 )
 
-st.markdown("عملکرد فروش از 1 فروردین تا 5 مرداد 1403", unsafe_allow_html=True)
+st.markdown("عملکرد فروش از 1 فروردین تا 5 مرداد 1403")
 st.sidebar.header('Dashboard `version 2`')
