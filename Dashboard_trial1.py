@@ -22,7 +22,7 @@ connection_string = f"""
 
 
 
-conn = odbc.connect(connection_string, timeout=60)
+conn = odbc.connect(connection_string, pooling=False)
 cursor = conn.cursor()
 
 
