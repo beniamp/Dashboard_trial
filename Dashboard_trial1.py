@@ -85,6 +85,10 @@ with open('style (1).css') as f:
 
 
 st.title('Order Management Dashboard')
-
 st.markdown("عملکرد فروش از 1 فروردین تا 5 مرداد 1403")
+st.subheader("Metrics")
+col1, col2 = st.column(2)
+col1.metric('Total Quantity', total_quantity)
+
+
 st.sidebar.header('Dashboard `version 2`')
