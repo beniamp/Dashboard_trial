@@ -78,12 +78,9 @@ category_total = category_total.sort_values('TotalPrice', ascending=False).reset
 
 
 
-st.title('Order Status Dashboard')
-c1, c2 = st.columns((7, 3))
-
-
-
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
+with open('Downloads/style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
     
 st.sidebar.header('Dashboard `version 2`')
