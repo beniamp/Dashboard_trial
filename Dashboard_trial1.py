@@ -94,13 +94,6 @@ st.title("""
 """,
 unsafe_allow_html=True
 )
-st.markdown("""
-<style>
-    .reportview-container .sidebar {
-        display: none;
-    }
-</style>
 
-# <center>عملکرد فروش از 1 فروردین تا 5 مرداد 1403</center>
-""")
+st.markdown("عملکرد فروش از 1 فروردین تا 5 مرداد 1403", unsafe_allow_html=True)
 st.sidebar.header('Dashboard `version 2`')
