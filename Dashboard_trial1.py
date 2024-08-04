@@ -50,26 +50,8 @@ df = df_orders[['ProductNameColor', 'Date_Formated', 'ColorName',
 df = df.rename(columns= {'Date_Formated': 'Date', 'ProductNameColor': 'Product', 'ColorName': 'Color', 'WarrantyName': 'Warranty'})
 
 
-# Convert 'Date' column to datetime
-df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
-
 # Check for invalid dates and handle them
 df = df.dropna(subset=['Date'])
-
-# Convert numeric columns to the correct type
-df['TotalPrice'] = pd.to_numeric(df['TotalPrice'], errors='coerce')
-df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
-
-
-# Ensure 'Date' column is in datetime format
-df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
-
-# Ensure 'TotalPrice' and 'Quantity' columns are numeric
-df['TotalPrice'] = pd.to_numeric(df['TotalPrice'], errors='coerce')
-df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
-
-# Check for NaN values in numeric columns and handle them
-df = df.dropna(subset=['TotalPrice', 'Quantity'])
 
 
 
@@ -79,13 +61,6 @@ df['UnitBasePrice'] = pd.to_numeric(df['UnitBasePrice'], errors='coerce')
 df['TotalPrice'] = pd.to_numeric(df['TotalPrice'], errors='coerce')
 df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
 
-
-
-
-# Optionally fill or drop missing values
-# df = df.dropna()  # Drop rows with any missing values
-# or
-df = df.fillna(0)  # Replace missing values with 0 (if appropriate)
 
 
 # Calculating available metrics (total)
@@ -119,6 +94,17 @@ total_net_cd = total_net_cd.sort_values('Date').reset_index(drop = True)
 category_total = df.groupby(['Category']).agg({'TotalPrice': 'sum', 'TotalNetPrice': 'sum'}).reset_index()
 category_total = category_total.sort_values('TotalPrice', ascending=False).reset_index(drop=True)
 
+
+df = df.dropna(subset=['Date'])
+
+# Droping null values in Date column so it doesn't interfere with split function
+df = df.dropna(subset=['Date']).copy()
+
+# Customizing persian month to corresponding month name by dictionary
+persian_months = {'01': 'Far', '02': 'Ord', '03': 'Kho',
+        '04': 'Tir', '05': 'Mor', '06': 'Sha',
+        '07': 'Meh', '08': 'Aba', '09': 'Aza',
+        '10': 'Dey', '11': 'Bah', '12': 'Esf' }
 
 
 
@@ -233,12 +219,16 @@ with open('style (1).css') as f:
 def main():
     st.title('Order Records Dashboard')
     
-    # Display a sample of the DataFrame to check types and content
-    st.write(df.head())
-    st.write(df.dtypes)
+    # Filter by category
+    categories = df['Category'].unique()
+    selected_category = st.sidebar.selectbox('Select Category', categories)
+    
+    # Filter by date
+    min_date = df['Date'].min()
+    max_date = df['Date'].max()
+    start_date = st.sidebar.date_input('Start Date', min_date)
+    end_date = st.sidebar.date_input('End Date', max_date)
 
-    # Display the sorted DataFrame
-    st.write(total_price_cd.head())
 
 if __name__ == "__main__":
     main()
