@@ -122,10 +122,6 @@ category_total = category_total.sort_values('TotalPrice', ascending=False).reset
 
 
 
-st.set_page_config(layout='wide', initial_sidebar_state='expanded')
-
-with open('style (1).css') as f:
-    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 
 
@@ -223,6 +219,15 @@ def sales_vs_discounts(df):
 
 
 
+st.set_page_config(
+    page_title="Sales Dashboard",
+    page_icon=":bar_chart:",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+with open('style (1).css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 
 # Streamlit integration
