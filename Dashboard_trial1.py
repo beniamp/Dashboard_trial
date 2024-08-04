@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go 
-import pyodbc as odbc
+#import pyodbc as odbc
 
 
 # Defining the Component of Connection String
@@ -21,23 +21,23 @@ connection_string = f"""
 
 
 
-conn = odbc.connect(connection_string, pooling=False)
-cursor = conn.cursor()
+#conn = odbc.connect(connection_string, pooling=False)
+#cursor = conn.cursor()
 
 
 # Returning All the Values from Fields and Records in Desired Table 
-query1 = """
-    SELECT * 
-    FROM order_management.dbo.orders_0101_0505
-"""
+#query1 = """
+#    SELECT * 
+#    FROM order_management.dbo.orders_0101_0505
+#"""
 
-result = cursor.execute(query1).fetchall()
+#result = cursor.execute(query1).fetchall()
 
 
 
 # Coverting our Sql Based Table into Pandas Dataframe
-df_orders = pd.read_sql(query1, conn)
-#df_orders = pd.read_csv('data.csv')
+#df_orders = pd.read_sql(query1, conn)
+df_orders = pd.read_csv('data.csv')
 df_orders.head()
 
 
