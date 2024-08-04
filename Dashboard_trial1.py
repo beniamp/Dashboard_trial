@@ -48,6 +48,22 @@ df = df_orders[['ProductNameColor', 'Date_Formated', 'ColorName',
 
 df = df.rename(columns= {'Date_Formated': 'Date', 'ProductNameColor': 'Product', 'ColorName': 'Color', 'WarrantyName': 'Warranty'})
 
+# Check data types
+st.write(df.dtypes)
+
+# Convert columns to numeric, forcing errors to NaN (useful for cleaning data)
+df['UnitBasePrice'] = pd.to_numeric(df['UnitBasePrice'], errors='coerce')
+df['TotalPrice'] = pd.to_numeric(df['TotalPrice'], errors='coerce')
+df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
+
+
+# Check for missing values
+st.write(df.isna().sum())
+
+# Optionally fill or drop missing values
+# df = df.dropna()  # Drop rows with any missing values
+# or
+df = df.fillna(0)  # Replace missing values with 0 (if appropriate)
 
 
 # Calculating available metrics (total)
