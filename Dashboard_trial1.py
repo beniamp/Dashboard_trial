@@ -216,7 +216,16 @@ def main():
     
     # Filter the dataframe based on the selected category
     filtered_df = df[df['Category'] == selected_category]
+
+    # Custom date range filter using selectbox
+    dates = filtered_df['Date'].unique()
+    selected_start_date = st.sidebar.selectbox('Start Date', dates, index=0)
+    selected_end_date = st.sidebar.selectbox('End Date', dates, index=len(dates)-1)
     
+    # Filter the DataFrame based on the selected dates
+    filtered_df = filtered_df[(filtered_df['Date'] >= selected_start_date) & (filtered_df['Date'] <= selected_end_date)]
+    
+
     # Show the Overall Price of Sale over time chart
     st.subheader('Sales Over Time Past 5 Months')
     fig_sales = sales_over_time(filtered_df)
