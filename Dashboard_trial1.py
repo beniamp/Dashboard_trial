@@ -80,8 +80,7 @@ df['TotalPrice'] = pd.to_numeric(df['TotalPrice'], errors='coerce')
 df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
 
 
-# Check for missing values
-st.write(df.isna().sum())
+
 
 # Optionally fill or drop missing values
 # df = df.dropna()  # Drop rows with any missing values
