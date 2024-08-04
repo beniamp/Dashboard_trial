@@ -97,8 +97,7 @@ category_total = category_total.sort_values('TotalPrice', ascending=False).reset
 
 df = df.dropna(subset=['Date'])
 
-# Droping null values in Date column so it doesn't interfere with split function
-df = df.dropna(subset=['Date']).copy()
+
 
 # Customizing persian month to corresponding month name by dictionary
 persian_months = {'01': 'Far', '02': 'Ord', '03': 'Kho',
@@ -109,26 +108,18 @@ persian_months = {'01': 'Far', '02': 'Ord', '03': 'Kho',
 
 
 
-
-
-
-# Function to format Persian dates
 def format_persian_date(date_str):
-    if pd.notna(date_str):
+        if date_str is None:
+            return None
         parts = date_str.split('-')
         if len(parts) == 3:
             year, month, day = parts
-            return f'{month}-{day}'
-    return 'Unknown'
+            persian_month = persian_months.get(month, month)
+            return f'{persian_month} {day}'
+        return date_str
 
-# Apply date formatting to your DataFrame
 df['FormattedDate'] = df['Date'].apply(format_persian_date)
 
-# Filter DataFrame by category and date
-def filter_data(df, selected_category, start_date, end_date):
-    filtered_df = df[df['Category'] == selected_category]
-    filtered_df = filtered_df[(filtered_df['Date'] >= start_date) & (filtered_df['Date'] <= end_date)]
-    return filtered_df
 
 # Trend Chart Sales Over Time Past 5 months
 def sales_over_time(df):
