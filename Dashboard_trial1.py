@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
+import plotly.graph_objects as go 
+import pyodbc as odbc
 
 
 # Defining the Component of Connection String
@@ -20,23 +21,23 @@ connection_string = f"""
 
 
 
-#conn = odbc.connect(connection_string, pooling=False)
-#cursor = conn.cursor()
+conn = odbc.connect(connection_string, pooling=False)
+cursor = conn.cursor()
 
 
 # Returning All the Values from Fields and Records in Desired Table 
-#query1 = """
-#    SELECT * 
-#    FROM order_management.dbo.orders_0101_0505
-#"""
+query1 = """
+    SELECT * 
+    FROM order_management.dbo.orders_0101_0505
+"""
 
-#result = cursor.execute(query1).fetchall()
+result = cursor.execute(query1).fetchall()
 
 
 
 # Coverting our Sql Based Table into Pandas Dataframe
-# df_orders = pd.read_sql(query1, conn)
-df_orders = pd.read_csv('data.csv')
+df_orders = pd.read_sql(query1, conn)
+#df_orders = pd.read_csv('data.csv')
 df_orders.head()
 
 
@@ -48,8 +49,30 @@ df = df_orders[['ProductNameColor', 'Date_Formated', 'ColorName',
 
 df = df.rename(columns= {'Date_Formated': 'Date', 'ProductNameColor': 'Product', 'ColorName': 'Color', 'WarrantyName': 'Warranty'})
 
-# Check data types
-st.write(df.dtypes)
+
+# Convert 'Date' column to datetime
+df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+
+# Check for invalid dates and handle them
+df = df.dropna(subset=['Date'])
+
+# Convert numeric columns to the correct type
+df['TotalPrice'] = pd.to_numeric(df['TotalPrice'], errors='coerce')
+df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
+
+
+# Ensure 'Date' column is in datetime format
+df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+
+# Ensure 'TotalPrice' and 'Quantity' columns are numeric
+df['TotalPrice'] = pd.to_numeric(df['TotalPrice'], errors='coerce')
+df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
+
+# Check for NaN values in numeric columns and handle them
+df = df.dropna(subset=['TotalPrice', 'Quantity'])
+
+
+
 
 # Convert columns to numeric, forcing errors to NaN (useful for cleaning data)
 df['UnitBasePrice'] = pd.to_numeric(df['UnitBasePrice'], errors='coerce')
@@ -78,10 +101,17 @@ total_price = df['TotalPrice'].sum()
 # total price and total net price grouped by each category and date
 
 total_price_cd = df.groupby(['Category', 'Date'])['TotalPrice'].sum().reset_index()
-total_price_cd = total_price_cd.sort_values('Date').reset_index(drop = True)
+total_price_cd['Date'] = pd.to_datetime(total_price_cd['Date'], errors='coerce')  # Convert to datetime if needed
+total_price_cd = total_price_cd.sort_values(by='Date').reset_index(drop=True)
+
+
 
 total_net_cd = df.groupby(['Category', 'Date'])['TotalNetPrice'].sum().reset_index()
 total_net_cd = total_net_cd.sort_values('Date').reset_index(drop = True)
+
+
+# Example of sorting by 'Date'
+
 
 
 
@@ -190,48 +220,21 @@ def sales_vs_discounts(df):
     fig = px.scatter(df, x='TotalPrice', y='UnitDiscount', title='Sales vs. Discounts', trendline='ols')
     return fig
 
-# Streamlit dashboard
+
+
+
+
+
+# Streamlit integration
 def main():
     st.title('Order Records Dashboard')
     
-    # Filter by category
-    categories = df['Category'].unique()
-    selected_category = st.sidebar.selectbox('Select Category', categories)
-    
-    # Filter by date
-    min_date = df['Date'].min()
-    max_date = df['Date'].max()
-    start_date = st.sidebar.date_input('Start Date', min_date)
-    end_date = st.sidebar.date_input('End Date', max_date)
-    
-    # Filter data
-    filtered_df = filter_data(df, selected_category, start_date, end_date)
-    
-    # Display charts
-    st.header('Sales Over Time')
-    st.plotly_chart(sales_over_time(filtered_df))
-    
-    st.header('Quantity Sold Over Time')
-    st.plotly_chart(sales_q_over_time(filtered_df))
-    
-    st.header('Sales by Category')
-    st.plotly_chart(sales_by_category(filtered_df))
-    
-    st.header('Top Products by Total Sales')
-    top_products = top_products_by_sales(filtered_df)
-    st.write(top_products)
-    
-    st.header('Unit Price Distribution')
-    st.plotly_chart(unit_price_distribution(filtered_df))
-    
-    st.header('Unit Price Distribution (Up to 8M)')
-    st.plotly_chart(unit_price_distribution1(filtered_df))
-    
-    st.header('Unit Price Distribution (8M to 150M)')
-    st.plotly_chart(unit_price_distribution2(filtered_df))
-    
-    st.header('Sales vs. Discounts')
-    st.plotly_chart(sales_vs_discounts(filtered_df))
+    # Display a sample of the DataFrame to check types and content
+    st.write(df.head())
+    st.write(df.dtypes)
+
+    # Display the sorted DataFrame
+    st.write(total_price_cd.head())
 
 if __name__ == "__main__":
     main()
