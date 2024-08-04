@@ -226,8 +226,8 @@ def main():
     # Filter by date
     min_date = df['Date'].min()
     max_date = df['Date'].max()
-    start_date = st.sidebar.date_input('Start Date', min_date)
-    end_date = st.sidebar.date_input('End Date', max_date)
+    start_date = st.sidebar('Start Date', min_date)
+    end_date = st.sidebar('End Date', max_date)
 
 
 if __name__ == "__main__":
