@@ -214,21 +214,18 @@ def main():
     categories = df['Category'].unique()
     selected_category = st.sidebar.selectbox('Select Category', categories)
     
-    # Filter by date
-    min_date = df['Date'].min()
-    max_date = df['Date'].max()
-
+    # Filter the dataframe based on the selected category
+    filtered_df = df[df['Category'] == selected_category]
+    
     # Show the Overall Price of Sale over time chart
     st.subheader('Sales Over Time Past 5 Months')
-    fig_sales = sales_over_time(df)
+    fig_sales = sales_over_time(filtered_df)
     st.plotly_chart(fig_sales)
 
     # Show the quantity over time chart
     st.subheader('Quantity Over Time Past 5 Months')
-    fig_quantity = sales_q_over_time(df)
+    fig_quantity = sales_q_over_time(filtered_df)
     st.plotly_chart(fig_quantity)
-
-
 
 if __name__ == "__main__":
     main()
