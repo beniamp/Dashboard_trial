@@ -227,6 +227,16 @@ def main():
     min_date = df['Date'].min()
     max_date = df['Date'].max()
 
+    # Show the Overall Price of Sale over time chart
+    st.subheader('Sales Over Time Past 5 Months')
+    fig_sales = sales_over_time(df)
+    st.plotly_chart(fig_sales)
+
+    # Show the quantity over time chart
+    st.subheader('Quantity Over Time Past 5 Months')
+    fig_quantity = sales_q_over_time(df)
+    st.plotly_chart(fig_quantity)
+
 
 
 if __name__ == "__main__":
