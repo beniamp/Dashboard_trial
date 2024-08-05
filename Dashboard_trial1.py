@@ -244,7 +244,7 @@ def heatmap_top_products(df):
     # Pivot the table to get the correct format for the heatmap
     heatmap_data_pivot = heatmap_data.pivot(index='Category', columns='FormattedDate', values='Quantity').fillna(0)
 
-    fig_heatmap = go.Figure(data=go.Heatmap(
+    fi_heatmap = go.Figure(data=go.Heatmap(
         z=heatmap_data_pivot.values,
         x=heatmap_data_pivot.columns,
         y=heatmap_data_pivot.index,
