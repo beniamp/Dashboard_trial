@@ -179,25 +179,47 @@ def top_products_by_sales_chart(df):
 
 # Unit Price Distribution for Different Ranges
 def unit_price_distribution1(df):
+    # Define price bins with a more scalable approach
     min_price = df['UnitBasePrice'].min()
     max_price = 8000000
+
+    # Define bin edges; these values can be adjusted as needed
     bin_edges = [min_price + i*(max_price-min_price)/40 for i in range(41)]
     bin_labels = [f'{int(bin_edges[i]):,}-{int(bin_edges[i+1]):,}' for i in range(len(bin_edges)-1)]
+    
+    # Assign bin labels to each price
     df['PriceRange'] = pd.cut(df['UnitBasePrice'], bins=bin_edges, labels=bin_labels, include_lowest=True)
+    
+    # Aggregate quantity sold within each price range
     price_range_distribution = df.groupby('PriceRange').sum()[['Quantity']].reset_index()
-    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Unit Prices Distribution (Up to 8M)',
+    
+    # Create bar chart
+    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Distribution of Unit Prices and Quantity Sold (Up to 8M)',
                  color_discrete_sequence=['gold'])
+    
     return fig
 
+
+
 def unit_price_distribution2(df):
+    # Define price bins with a more scalable approach
     min_price = 8000000
     max_price = df['UnitBasePrice'].max()
+
+    # Define bin edges; these values can be adjusted as needed
     bin_edges = [min_price + i*(max_price-min_price)/40 for i in range(41)]
     bin_labels = [f'{int(bin_edges[i]):,}-{int(bin_edges[i+1]):,}' for i in range(len(bin_edges)-1)]
+    
+    # Assign bin labels to each price
     df['PriceRange'] = pd.cut(df['UnitBasePrice'], bins=bin_edges, labels=bin_labels, include_lowest=True)
+    
+    # Aggregate quantity sold within each price range
     price_range_distribution = df.groupby('PriceRange').sum()[['Quantity']].reset_index()
-    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Unit Prices Distribution (8M to 150M)',
+    
+    # Create bar chart
+    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Distribution of Unit Prices and Quantity Sold (8M to 150M)',
                  color_discrete_sequence=['gold'])
+    
     return fig
 
 
@@ -239,16 +261,14 @@ def main():
     
 
     # Show the Overall Price of Sale over time chart
-    c1, c2 = st.columns((7, 3))
-    with c1:
-        st.subheader('Sales Over Time Past 5 Months')
-        fig_sales = sales_over_time(filtered_df)
-        st.plotly_chart(fig_sales)
-    
-    with c2:
-        st.subheader('Quantity Over Time Past 5 Months')
-        fig_quantity = sales_q_over_time(filtered_df)
-        st.plotly_chart(fig_quantity)
+    st.subheader('Sales Over Time Past 5 Months')
+    fig_sales = sales_over_time(filtered_df)
+    st.plotly_chart(fig_sales)
+
+    # Show the Overall Sales Volume of Sale over time chart
+    st.subheader('Quantity Over Time Past 5 Months')
+    fig_quantity = sales_q_over_time(filtered_df)
+    st.plotly_chart(fig_quantity)
 
     # Show Sales by Category
     st.subheader('Sales / Net Price by Category')
