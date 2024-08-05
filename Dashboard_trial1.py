@@ -177,21 +177,8 @@ def top_products_by_sales_chart(df):
 
 
 
-
-# Unit Price Distribution
-def unit_price_distribution1(df):
-    min_price = df['UnitBasePrice'].min()
-    max_price = df['UnitBasePrice'].max()
-    bin_edges = [min_price + i*(max_price-min_price)/10 for i in range(11)]
-    bin_labels = [f'{int(bin_edges[i]):,}-{int(bin_edges[i+1]):,}' for i in range(len(bin_edges)-1)]
-    df['PriceRange'] = pd.cut(df['UnitBasePrice'], bins=bin_edges, labels=bin_labels, include_lowest=True)
-    price_range_distribution = df.groupby('PriceRange').sum()[['Quantity']].reset_index()
-    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Distribution of Unit Prices and Quantity Sold'), 
-                color_discrete_swquence=['gold'])
-    return fig
-
 # Unit Price Distribution for Different Ranges
-def unit_price_distribution2(df):
+def unit_price_distribution1(df):
     min_price = df['UnitBasePrice'].min()
     max_price = 8000000
     bin_edges = [min_price + i*(max_price-min_price)/40 for i in range(41)]
