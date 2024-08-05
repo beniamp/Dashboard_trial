@@ -258,9 +258,9 @@ def main():
     st.plotly_chart(fig_cat)
 
     # Show Top Products by Sales
-    st.subheader('Top Products by Sales')
-    fig_products = top_products_by_sales_chart(filtered_df)
-    st.plotly_chart(fig_products)
+     #st.subheader('Top Products by Sales')
+     #fig_products = top_products_by_sales_chart(filtered_df)
+     #st.plotly_chart(fig_products)
 
     # Show Unit Price Distribution1
     st.subheader('Unit Price Distribution (Up to 8M)')
