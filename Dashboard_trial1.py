@@ -238,14 +238,18 @@ def main():
     
 
     # Show the Overall Price of Sale over time chart
-    st.subheader('Sales Over Time Past 5 Months')
-    fig_sales = sales_over_time(filtered_df)
-    st.plotly_chart(fig_sales)
+    c1, c2 = st.columns((7,3))
+    with c1:
+        st.subheader('Sales Over Time Past 5 Months')
+        fig_sales = sales_over_time(filtered_df)
+        st.plotly_chart(fig_sales)
 
+    
     # Show the quantity over time chart
-    st.subheader('Quantity Over Time Past 5 Months')
-    fig_quantity = sales_q_over_time(filtered_df)
-    st.plotly_chart(fig_quantity)
+    with c2:    
+        st.subheader('Quantity Over Time Past 5 Months')
+        fig_quantity = sales_q_over_time(filtered_df)
+        st.plotly_chart(fig_quantity)
 
     # Show Sales by Category
     st.subheader('Sales / Net Price by Category')
