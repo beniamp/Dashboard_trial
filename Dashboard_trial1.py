@@ -155,7 +155,7 @@ def top_products_by_sales_chart(df):
         'TotalPrice': 'sum', 
         'Quantity': 'sum'
     }).reset_index()
-    product_sales = product_sales.sort_values(by='TotalPrice', ascending=False).reset_index(drop=True)
+    product_sales = product_sales.sort_values(by='Quantity', ascending=False).reset_index(drop=True)
     
     # Create a Plotly table
     fig = go.Figure(data=[go.Table(
