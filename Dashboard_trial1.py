@@ -341,7 +341,7 @@ def main():
     # Show Heatmap Top Products
     st.subheader("Top 20 Category heaatmap")
     fig_heat = heatmap_top_products(filtered_df)
-    st.plotly(fig_heat)
+    st.plotly_chart(fig_heat)
 
 
 if __name__ == "__main__":
