@@ -149,17 +149,34 @@ def sales_by_category(df):
 
 
 # Top Products by Total Sales
-def top_products_by_sales(df):
-    product_sales = df.groupby(['Product', 'Category', 'Color']).agg({'TotalPrice': 'sum', 'Quantity': 'sum'}).reset_index()
-    product_sales = product_sales.sort_values(by= 'TotalPrice', ascending = False).reset_index()
-    product_sales = top_products_by_sales(df)
-    fig = go.Figure(data=[go.Table(
-    header=dict(values=list(product_sales.columns),
-                fill_color='paleturquoise',
-                align='right'), cells=dict(values=[product_sales[col] for col in product_sales.columns],
-               fill_color='lavender', align='left'))])
-    return fig
+df = pd.DataFrame(data)
 
+# Function to transform DataFrame and create a Plotly table chart
+def top_products_by_sales_chart(df):
+    # Data transformation
+    product_sales = df.groupby(['Product', 'Category', 'Color']).agg({
+        'TotalPrice': 'sum', 
+        'Quantity': 'sum'
+    }).reset_index()
+    product_sales = product_sales.sort_values(by='TotalPrice', ascending=False).reset_index(drop=True)
+    
+    # Create a Plotly table
+    fig = go.Figure(data=[go.Table(
+        header=dict(
+            values=list(product_sales.columns),
+            fill_color='paleturquoise',
+            align='left'
+        ),
+        cells=dict(
+            values=[product_sales[col] for col in product_sales.columns],
+            fill_color='lavender',
+            align='left'
+        )
+    )])
+    
+    fig.update_layout(title='Top Products by Sales')
+    
+    return fig
 
 
 # Unit Price Distribution
@@ -253,8 +270,8 @@ def main():
 
     # Show Top Products by Sales
     st.subheader('Top Products by Sales')
-    fig_products = top_products_by_sales(filtered_df)
-    st.plotly_chart(fig_product)
+    fig_products = top_products_by_sales_chart(filtered_df)
+    st.plotly_chart(fig_products)
 
 if __name__ == "__main__":
     main()
