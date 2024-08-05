@@ -176,19 +176,22 @@ def top_products_by_sales_chart(df):
     return fig
 
 
+
+
 # Unit Price Distribution
-def unit_price_distribution(df):
+def unit_price_distribution1(df):
     min_price = df['UnitBasePrice'].min()
     max_price = df['UnitBasePrice'].max()
     bin_edges = [min_price + i*(max_price-min_price)/10 for i in range(11)]
     bin_labels = [f'{int(bin_edges[i]):,}-{int(bin_edges[i+1]):,}' for i in range(len(bin_edges)-1)]
     df['PriceRange'] = pd.cut(df['UnitBasePrice'], bins=bin_edges, labels=bin_labels, include_lowest=True)
     price_range_distribution = df.groupby('PriceRange').sum()[['Quantity']].reset_index()
-    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Distribution of Unit Prices and Quantity Sold')
+    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Distribution of Unit Prices and Quantity Sold'), 
+                color_discrete_swquence=['gold'])
     return fig
 
 # Unit Price Distribution for Different Ranges
-def unit_price_distribution1(df):
+def unit_price_distribution2(df):
     min_price = df['UnitBasePrice'].min()
     max_price = 8000000
     bin_edges = [min_price + i*(max_price-min_price)/40 for i in range(41)]
@@ -210,9 +213,6 @@ def unit_price_distribution2(df):
                  color_discrete_sequence=['gold'])
     return fig
 
-def sales_vs_discounts(df):
-    fig = px.scatter(df, x='TotalPrice', y='UnitDiscount', title='Sales vs. Discounts', trendline='ols')
-    return fig
 
 
 
@@ -269,6 +269,16 @@ def main():
     st.subheader('Top Products by Sales')
     fig_products = top_products_by_sales_chart(filtered_df)
     st.plotly_chart(fig_products)
+
+    # Show Unit Price Distribution1
+    st.subheader('Unit Price Distribution (Up to 8M)')
+    fig_dist1 = unit_price_distribution1(filtered_df)
+    st.plotly_chart(fig_dist1)
+
+    # Show Unit Price Distribution2
+    st.subheader('Unit Price Distribution (8M to 150M)')
+    fig_dist2 = unit_price_distribution2(filtered_df)
+    st.plotly_chart(fig_dist2)
 
 if __name__ == "__main__":
     main()
