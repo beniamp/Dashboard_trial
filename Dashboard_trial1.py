@@ -237,7 +237,7 @@ def unit_price_distribution2(df):
 # Filter the top 20 categories by sales volume
 def heatmap_top_products(df): 
     # Filter the top 20 categories by sales volume
-    top_categories = df.groupby('Category')['Quantity'].sum().nlargest(20).index
+    top_categories = df.groupby('Category')['Quantity'].sum().nlargest(10).index
     df_top_categories = df[df['Category'].isin(top_categories)]
     # Aggregate data by date and category
     heatmap_data = df_top_categories.groupby(['FormattedDate', 'Category'])['Quantity'].sum().reset_index()
@@ -339,7 +339,7 @@ def main():
 
 
     # Show Heatmap Top Products
-    st.subheader("Top 20 Category heaatmap")
+    st.subheader("Top 10 Category heatmap")
     fig_heat = heatmap_top_products(filtered_df)
     st.plotly_chart(fig_heat)
 
