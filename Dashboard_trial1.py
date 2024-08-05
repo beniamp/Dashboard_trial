@@ -238,5 +238,10 @@ def main():
     fig_quantity = sales_q_over_time(filtered_df)
     st.plotly_chart(fig_quantity)
 
+    # Show Sales by Category
+    st.subheader('Sales / Net Price by Category')
+    fig_cat = sales_by_category(filtered_df)
+    st.plotly_chart(fig_cat)
+
 if __name__ == "__main__":
     main()
