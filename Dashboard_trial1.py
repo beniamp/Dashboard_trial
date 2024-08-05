@@ -254,7 +254,7 @@ def main():
     
     # Filter by category
     categories = df['Category'].unique()
-    selected_category = st.sidebar.selectbox('Select Category', categories)
+    selected_category = st.sidebar.multiselect('Select Category', categories)
     
     # Filter the dataframe based on the selected category
     filtered_df = df[df['Category'] == selected_category]
