@@ -244,7 +244,7 @@ def heatmap_top_products(df):
     # Pivot the table to get the correct format for the heatmap
     heatmap_data_pivot = heatmap_data.pivot(index='Category', columns='FormattedDate', values='Quantity').fillna(0)
 
-    fi_heatmap = go.Figure(data=go.Heatmap(
+    fig = go.Figure(data=go.Heatmap(
         z=heatmap_data_pivot.values,
         x=heatmap_data_pivot.columns,
         y=heatmap_data_pivot.index,
@@ -252,7 +252,7 @@ def heatmap_top_products(df):
         colorbar=dict(title='Quantity Sold')
     ))
 
-    fig_heatmap.update_layout(
+    fig.update_layout(
     title='Quantity Sold Heatmap by Top 20 Categories and Date',
     xaxis=dict(title='FormattedDate'),
     yaxis=dict(title='Category')
