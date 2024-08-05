@@ -200,7 +200,7 @@ def unit_price_distribution(df):
 def unit_price_distribution1(df):
     # Define price bins with a more scalable approach
     min_price = df['UnitBasePrice'].min()
-    max_price = df['UnitBasePrice'].max()
+    max_price = 8000000
     # Define bin edges; these values can be adjusted as needed
     bin_edges = [min_price + i*(max_price-min_price)/80 for i in range(81)]
     bin_labels = [f'{int(bin_edges[i]):,}-{int(bin_edges[i+1]):,}' for i in range(len(bin_edges)-1)]
@@ -218,7 +218,7 @@ def unit_price_distribution1(df):
 # Unit Price Distribution for Different Ranges
 def unit_price_distribution2(df):
     # Define price bins with a more scalable approach
-    min_price = df['UnitBasePrice'].min()
+    min_price = 8000000
     max_price = df['UnitBasePrice'].max()
     # Define bin edges; these values can be adjusted as needed
     bin_edges = [min_price + i*(max_price-min_price)/80 for i in range(81)]
