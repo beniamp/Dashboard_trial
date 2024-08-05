@@ -234,6 +234,34 @@ def unit_price_distribution2(df):
     return fig
 
 
+# Filter the top 20 categories by sales volume
+def heatmap_top_products(df): 
+    # Filter the top 20 categories by sales volume
+    top_categories = df.groupby('Category')['Quantity'].sum().nlargest(20).index
+    df_top_categories = df[df['Category'].isin(top_categories)]
+    # Aggregate data by date and category
+    heatmap_data = df_top_categories.groupby(['FormattedDate', 'Category'])['Quantity'].sum().reset_index()
+    # Pivot the table to get the correct format for the heatmap
+    heatmap_data_pivot = heatmap_data.pivot(index='Category', columns='FormattedDate', values='Quantity').fillna(0)
+
+    fig_heatmap = go.Figure(data=go.Heatmap(
+        z=heatmap_data_pivot.values,
+        x=heatmap_data_pivot.columns,
+        y=heatmap_data_pivot.index,
+        colorscale='Viridis',
+        colorbar=dict(title='Quantity Sold')
+    ))
+
+    fig_heatmap.update_layout(
+    title='Quantity Sold Heatmap by Top 20 Categories and Date',
+    xaxis=dict(title='FormattedDate'),
+    yaxis=dict(title='Category')
+    )
+
+    return fig
+
+
+
 
 
 
@@ -307,7 +335,13 @@ def main():
     # Show Unit Price Distribution1
     st.subheader('Unit Price Distribution (8M to 150M)')
     fig_dist3 = unit_price_distribution2(filtered_df)
-    st.plotly_chart(fig_dist3)
+    st.plotly_chart(fig_dist3
+
+
+    # Show Heatmap Top Products
+    st.subheader("Top 20 Category heaatmap")
+    fig_heat = heatmap_top_products(filtered_df)
+    st.plotly(fig_heat)
 
 
 if __name__ == "__main__":
