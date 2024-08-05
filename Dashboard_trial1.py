@@ -178,44 +178,17 @@ def top_products_by_sales_chart(df):
 
 
 # Unit Price Distribution for Different Ranges
-def unit_price_distribution1(df):
+def unit_price_distribution(df):
     # Define price bins with a more scalable approach
     min_price = df['UnitBasePrice'].min()
-    max_price = 8000000
-
-    # Define bin edges; these values can be adjusted as needed
-    bin_edges = [min_price + i*(max_price-min_price)/40 for i in range(41)]
-    bin_labels = [f'{int(bin_edges[i]):,}-{int(bin_edges[i+1]):,}' for i in range(len(bin_edges)-1)]
-    
-    # Assign bin labels to each price
-    df['PriceRange'] = pd.cut(df['UnitBasePrice'], bins=bin_edges, labels=bin_labels, include_lowest=True)
-    
-    # Aggregate quantity sold within each price range
-    price_range_distribution = df.groupby('PriceRange').sum()[['Quantity']].reset_index()
-    
-    # Create bar chart
-    fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Distribution of Unit Prices and Quantity Sold (Up to 8M)',
-                 color_discrete_sequence=['gold'])
-    
-    return fig
-
-
-
-def unit_price_distribution2(df):
-    # Define price bins with a more scalable approach
-    min_price = 8000000
     max_price = df['UnitBasePrice'].max()
-
     # Define bin edges; these values can be adjusted as needed
-    bin_edges = [min_price + i*(max_price-min_price)/40 for i in range(41)]
+    bin_edges = [min_price + i*(max_price-min_price)/86 for i in range(81)]
     bin_labels = [f'{int(bin_edges[i]):,}-{int(bin_edges[i+1]):,}' for i in range(len(bin_edges)-1)]
-    
     # Assign bin labels to each price
     df['PriceRange'] = pd.cut(df['UnitBasePrice'], bins=bin_edges, labels=bin_labels, include_lowest=True)
-    
     # Aggregate quantity sold within each price range
     price_range_distribution = df.groupby('PriceRange').sum()[['Quantity']].reset_index()
-    
     # Create bar chart
     fig = px.bar(price_range_distribution, x='PriceRange', y='Quantity', title='Distribution of Unit Prices and Quantity Sold (8M to 150M)',
                  color_discrete_sequence=['gold'])
@@ -281,14 +254,11 @@ def main():
     st.plotly_chart(fig_products)
 
     # Show Unit Price Distribution1
-    st.subheader('Unit Price Distribution (Up to 8M)')
-    fig_dist1 = unit_price_distribution1(filtered_df)
+    st.subheader('Unit Price Distribution (Overall)')
+    fig_dist1 = unit_price_distribution(filtered_df)
     st.plotly_chart(fig_dist1)
 
-    # Show Unit Price Distribution2
-    st.subheader('Unit Price Distribution (8M to 150M)')
-    fig_dist2 = unit_price_distribution2(filtered_df)
-    st.plotly_chart(fig_dist2)
+
 
 if __name__ == "__main__":
     main()
