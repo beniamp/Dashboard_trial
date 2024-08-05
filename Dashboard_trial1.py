@@ -227,26 +227,27 @@ def main():
     filtered_df = df[df['Category'] == selected_category]
 
     # Custom date range filter using selectbox
-    dates = filtered_df['Date'].unique()
+    dates = filtered_df['Date'].dt.date.unique()
     dates = sorted(dates)  # Sort the dates in ascending order
     selected_start_date = st.sidebar.selectbox('Start Date', dates, index=0)
     selected_end_date = st.sidebar.selectbox('End Date', dates, index=len(dates)-1)
 
-
     # Filter the DataFrame based on the selected dates
-    filtered_df = filtered_df[(filtered_df['Date'] >= selected_start_date) & (filtered_df['Date'] <= selected_end_date)]
+    filtered_df = filtered_df[(filtered_df['Date'].dt.date >= selected_start_date) & (filtered_df['Date'].dt.date <= selected_end_date)]
     
+    # Debugging: Check if filtered_df is empty
+    if filtered_df.empty:
+        st.warning("No data available for the selected filters.")
+        return
 
     # Show the Overall Price of Sale over time chart
-    c1, c2 = st.columns((7,3))
+    c1, c2 = st.columns((7, 3))
     with c1:
         st.subheader('Sales Over Time Past 5 Months')
         fig_sales = sales_over_time(filtered_df)
         st.plotly_chart(fig_sales)
-
     
-    # Show the quantity over time chart
-    with c2:    
+    with c2:
         st.subheader('Quantity Over Time Past 5 Months')
         fig_quantity = sales_q_over_time(filtered_df)
         st.plotly_chart(fig_quantity)
