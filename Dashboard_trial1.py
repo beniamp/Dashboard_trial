@@ -226,11 +226,13 @@ def main():
     # Filter the dataframe based on the selected category
     filtered_df = df[df['Category'] == selected_category]
 
+
     # Custom date range filter using selectbox
-    dates = filtered_df['Date'].dt.date.unique()
+    dates = filtered_df['Date'].unique()
     dates = sorted(dates)  # Sort the dates in ascending order
     selected_start_date = st.sidebar.selectbox('Start Date', dates, index=0)
     selected_end_date = st.sidebar.selectbox('End Date', dates, index=len(dates)-1)
+
 
     # Filter the DataFrame based on the selected dates
     filtered_df = filtered_df[(filtered_df['Date'] >= selected_start_date) & (filtered_df['Date'] <= selected_end_date)]
