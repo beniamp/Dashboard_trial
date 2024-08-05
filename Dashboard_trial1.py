@@ -147,12 +147,20 @@ def sales_by_category(df):
     fig.update_layout(xaxis_title='Category', yaxis_title='Value', legend_title='Metrics')
     return fig
 
+
 # Top Products by Total Sales
 def top_products_by_sales(df):
     product_sales = df.groupby(['Product', 'Category', 'Color']).agg({'TotalPrice': 'sum', 'Quantity': 'sum'}).reset_index()
-    product_sales = product_sales.sort_values(by='TotalPrice', ascending=False).head(10).reset_index()
-    fig = px.bar(product_sales, x='Product', y='TotalPrice', color='Quantity', title='Top Products by Total Sales')
+    product_sales = product_sales.sort_values(by= 'TotalPrice', ascending = False).reset_index()
+    product_sales = top_products_by_sales(df)
+    fig = go.Figure(data=[go.Table(
+    header=dict(values=list(product_sales.columns),
+                fill_color='paleturquoise',
+                align='right'), cells=dict(values=[product_sales[col] for col in product_sales.columns],
+               fill_color='lavender', align='left'))])
     return fig
+
+
 
 # Unit Price Distribution
 def unit_price_distribution(df):
@@ -242,6 +250,11 @@ def main():
     st.subheader('Sales / Net Price by Category')
     fig_cat = sales_by_category(filtered_df)
     st.plotly_chart(fig_cat)
+
+    # Show Top Products by Sales
+    st.subheader('Top Product by Sales')
+    fig_product = top_product_by_sales(filtered_df)
+    st.plotly_chart(fig_product)
 
 if __name__ == "__main__":
     main()
