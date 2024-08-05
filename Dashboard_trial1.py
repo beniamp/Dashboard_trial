@@ -233,12 +233,8 @@ def main():
     selected_end_date = st.sidebar.selectbox('End Date', dates, index=len(dates)-1)
 
     # Filter the DataFrame based on the selected dates
-    filtered_df = filtered_df[(filtered_df['Date'].dt.date >= selected_start_date) & (filtered_df['Date'].dt.date <= selected_end_date)]
+    filtered_df = filtered_df[(filtered_df['Date'] >= selected_start_date) & (filtered_df['Date'] <= selected_end_date)]
     
-    # Debugging: Check if filtered_df is empty
-    if filtered_df.empty:
-        st.warning("No data available for the selected filters.")
-        return
 
     # Show the Overall Price of Sale over time chart
     c1, c2 = st.columns((7, 3))
@@ -258,9 +254,9 @@ def main():
     st.plotly_chart(fig_cat)
 
     # Show Top Products by Sales
-     #st.subheader('Top Products by Sales')
-     #fig_products = top_products_by_sales_chart(filtered_df)
-     #st.plotly_chart(fig_products)
+    st.subheader('Top Products by Sales')
+    fig_products = top_products_by_sales_chart(filtered_df)
+    st.plotly_chart(fig_products)
 
     # Show Unit Price Distribution1
     st.subheader('Unit Price Distribution (Up to 8M)')
