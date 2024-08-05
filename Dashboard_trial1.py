@@ -149,9 +149,6 @@ def sales_by_category(df):
 
 
 # Top Products by Total Sales
-df = pd.DataFrame(data)
-
-# Function to transform DataFrame and create a Plotly table chart
 def top_products_by_sales_chart(df):
     # Data transformation
     product_sales = df.groupby(['Product', 'Category', 'Color']).agg({
