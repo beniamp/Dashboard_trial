@@ -335,7 +335,7 @@ def main():
     # Show Unit Price Distribution1
     st.subheader('Unit Price Distribution (8M to 150M)')
     fig_dist3 = unit_price_distribution2(filtered_df)
-    st.plotly_chart(fig_dist3
+    st.plotly_chart(fig_dist3)
 
 
     # Show Heatmap Top Products
