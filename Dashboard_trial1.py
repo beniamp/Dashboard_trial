@@ -254,10 +254,13 @@ def main():
     
     # Filter by category
     categories = df['Category'].unique()
-    selected_category = st.sidebar.multiselect('Select Category', categories)
+    selected_categories = st.sidebar.multiselect('Select Category', categories, default=categories)
     
-    # Filter the dataframe based on the selected category
-    filtered_df = df[df['Category'] == selected_category]
+    # Filter the dataframe based on the selected categories
+    if selected_categories:
+        filtered_df = df[df['Category'].isin(selected_categories)]
+    else:
+        filtered_df = df.copy()  # If no category is selected, use the entire DataFrame
 
 
     # Custom date range filter using selectbox
