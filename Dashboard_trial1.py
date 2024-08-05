@@ -252,8 +252,8 @@ def main():
     st.plotly_chart(fig_cat)
 
     # Show Top Products by Sales
-    st.subheader('Top Product by Sales')
-    fig_product = top_product_by_sales(filtered_df)
+    st.subheader('Top Products by Sales')
+    fig_products = top_products_by_sales(filtered_df)
     st.plotly_chart(fig_product)
 
 if __name__ == "__main__":
