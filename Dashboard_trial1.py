@@ -43,11 +43,11 @@ df_orders.head()
 
 # Selecting only required fileds and renaming multywords to solely words title
 
-df = df_orders[['ProductNameColor', 'Date_Formated', 'ColorName',
+df = df_orders[['ProductNameColor', 'Date_Formatted', 'ColorName',
                 'Category', 'WarrantyName', 'Quantity', 'UnitBasePrice',
                 'UnitNetPrice', 'UnitDiscount', 'TotalPrice', 'TotalNetPrice', 'TotalDiscount']]
 
-df = df.rename(columns= {'Date_Formated': 'Date', 'ProductNameColor': 'Product', 'ColorName': 'Color', 'WarrantyName': 'Warranty'})
+df = df.rename(columns= {'Date_Formatted': 'Date', 'ProductNameColor': 'Product', 'ColorName': 'Color', 'WarrantyName': 'Warranty'})
 
 
 # Check for invalid dates and handle them
